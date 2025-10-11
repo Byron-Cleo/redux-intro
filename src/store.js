@@ -6,6 +6,7 @@ const initialState = {
   loanPurpose: "",
 };
 
+//reducer is for update state with action types
 function reducer(state = initialState, action) {
   switch (action.type) {
     case "account/deposit":
