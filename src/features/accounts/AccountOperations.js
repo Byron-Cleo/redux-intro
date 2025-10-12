@@ -14,6 +14,7 @@ function AccountOperations() {
     loan: currentLoan,
     loanPurpose: currentLoanPurpose,
     balance,
+    isLoading,
   } = useSelector((store) => store.account);
   console.log(balance);
 
@@ -99,7 +100,9 @@ function AccountOperations() {
             <span>
               Pay back ${currentLoan} ({currentLoanPurpose})
             </span>
-            <button onClick={handlePayLoan}>Pay loan</button>
+            <button onClick={handlePayLoan} disabled={isLoading}>
+              {isLoading ? "Converting" : "Pay loan"}
+            </button>
           </div>
         )}
       </div>
