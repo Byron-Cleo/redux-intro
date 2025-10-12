@@ -1,13 +1,14 @@
 import { createStore } from "redux";
 
-const initialState = {
+const initialStateAccount = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
 };
 
+
 //reducer to update state based on actions to be dispatched
-function reducer(state = initialState, action) {
+function reducer(state = initialStateAccount, action) {
   switch (action.type) {
     case "account/deposit":
       return { ...state, balance: state.balance + action.payload };
@@ -57,7 +58,7 @@ const store = createStore(reducer);
 // store.dispatch({ type: "account/payLoan" });
 // console.log(store.getState());
 
-//STEP 2: ACTION CREATORS FUNCTIONS THAT ANUTOMATICALLY DISPATCH THE ACTION TYPES WITH
+//STEP 2: ACTION CREATOR FUNCTIONS THAT ANUTOMATICALLY DISPATCH THE ACTION TYPES WITH
 //USER DEFINED VALUES
 //these functions return actions which are the objects being defined in step 1
 function deposit(amount) {
