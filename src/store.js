@@ -1,4 +1,4 @@
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 
 const initialStateAccount = {
   balance: 0,
@@ -6,9 +6,16 @@ const initialStateAccount = {
   loanPurpose: "",
 };
 
+//Creating initail state for customers
+const initialStateCustomer = {
+  fullName: "",
+  nationalID: "",
+  createdAt: "",
+};
 
 //reducer to update state based on actions to be dispatched
-function reducer(state = initialStateAccount, action) {
+//NB: THE REDUCER SHOULD NOT HAVE A SIDE EFFECT i.e which is computing capabilites
+function accountReducer(state = initialStateAccount, action) {
   switch (action.type) {
     case "account/deposit":
       return { ...state, balance: state.balance + action.payload };
@@ -35,11 +42,36 @@ function reducer(state = initialStateAccount, action) {
   }
 }
 
+function customerReducer(state = initialStateCustomer, action) {
+  switch (action.type) {
+    case "customer/createCustomer":
+      return {
+        ...state,
+        fullName: action.payload.fullName,
+        nationalID: action.payload.nationalID,
+        createdAt: action.payload.createdAt,
+      };
+
+    case "customer/updateName":
+      return {
+        ...state,
+        fullName: action.payload,
+      };
+
+    default:
+      return state;
+  }
+}
+
+const rootReducer = combineReducers({
+  account: accountReducer,
+  customer: customerReducer,
+});
 //STEP 1
 //created the store for global state; that can be accessed from anywhere
 //This is the manual way of demnstrating how the action mutate the state hence will be replaced
 //with action creators in step 2
-const store = createStore(reducer);
+const store = createStore(rootReducer);
 
 // store.dispatch({ type: "account/deposit", payload: 500 });
 // console.log(store.getState());
@@ -91,4 +123,23 @@ console.log(store.getState());
 store.dispatch(requestLoan(1000, "Buy a radio"));
 console.log(store.getState());
 store.dispatch(payLoan());
+console.log(store.getState());
+
+//2. CREATING ACTION CREATORS TO DISPATCH TYPE OF ACTIONS THAT UPDATE THE CUSTOMER'S INITIAL STATE
+function createCustomer(fullName, nationalID) {
+  return {
+    type: "customer/createCustomer",
+    payload: { fullName, nationalID, createdAt: new Date().toISOString() },
+  };
+}
+
+function updateName(fullName) {
+  return { type: "customer/updateName", payload: fullName };
+}
+
+
+//dspatchin actions to update state now
+store.dispatch(createCustomer("Byron", "30205942"));
+console.log(store.getState());
+store.dispatch(updateName("Byron Ochieng'"));
 console.log(store.getState());
