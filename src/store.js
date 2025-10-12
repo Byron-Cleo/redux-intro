@@ -40,19 +40,54 @@ function reducer(state = initialState, action) {
 //with action creators in step 2
 const store = createStore(reducer);
 
-store.dispatch({ type: "account/deposit", payload: 500 });
-console.log(store.getState());
-store.dispatch({ type: "account/withdraw", payload: 200 });
-console.log(store.getState());
-//advanced payload as an object to pass many pieces of data
-store.dispatch({
-  type: "account/requestLoan",
-  payload: {
-    amount: 1000,
-    purpose: "Buy a house",
-  },
-});
-console.log(store.getState());
+// store.dispatch({ type: "account/deposit", payload: 500 });
+// console.log(store.getState());
+// store.dispatch({ type: "account/withdraw", payload: 200 });
+// console.log(store.getState());
+// //advanced payload as an object to pass many pieces of data
+// store.dispatch({
+//   type: "account/requestLoan",
+//   payload: {
+//     amount: 1000,
+//     purpose: "Buy a house",
+//   },
+// });
+// console.log(store.getState());
 
-store.dispatch({ type: "account/payLoan"});
+// store.dispatch({ type: "account/payLoan" });
+// console.log(store.getState());
+
+//STEP 2: ACTION CREATORS FUNCTIONS THAT ANUTOMATICALLY DISPATCH THE ACTION TYPES WITH
+//USER DEFINED VALUES
+//these functions return actions which are the objects being defined in step 1
+function deposit(amount) {
+  return { type: "account/deposit", payload: amount };
+}
+
+function withdraw(amount) {
+  return { type: "account/withdraw", payload: amount };
+}
+
+function requestLoan(amount, purpose) {
+  return {
+    type: "account/requestLoan",
+    payload: {
+      amount: amount,
+      purpose: purpose,
+    },
+  };
+}
+
+function payLoan() {
+  return { type: "account/payLoan" };
+}
+
+//dspatchin actions to update state now
+store.dispatch(deposit(500));
+console.log(store.getState());
+store.dispatch(withdraw(200));
+console.log(store.getState());
+store.dispatch(requestLoan(1000, "Buy a radio"));
+console.log(store.getState());
+store.dispatch(payLoan());
 console.log(store.getState());
