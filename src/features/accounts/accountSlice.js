@@ -3,6 +3,7 @@ const initialStateAccount = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
+  isLoading: false,
 };
 //STEP 1: REDUCER TO UPDATE THE GLOBAL STATE
 //reducer to update state based on actions to be dispatched
@@ -10,7 +11,11 @@ const initialStateAccount = {
 export default function accountReducer(state = initialStateAccount, action) {
   switch (action.type) {
     case "account/deposit":
-      return { ...state, balance: state.balance + action.payload };
+      return {
+        ...state,
+        balance: state.balance + action.payload,
+        isLoading: false,
+      };
     case "account/withdraw":
       return { ...state, balance: state.balance - action.payload };
     case "account/requestLoan":
@@ -29,6 +34,11 @@ export default function accountReducer(state = initialStateAccount, action) {
         loanPurpose: "",
         balance: state.balance - state.loan,
       };
+    case "account/convertingCurrency":
+      return {
+        ...state,
+        isLoading: true,
+      };
     default:
       return state;
   }
@@ -44,6 +54,7 @@ export function deposit(amount, currency) {
 
   //THIS IS THE MIDLLEWARE SITTING BETWEEN THE DISPATCH AND THE STORE
   return async function (dispatch, getState) {
+    dispatch({ type: "account/convertingCurrency" });
     //API call
     const url = `https://api.frankfurter.dev/v1/latest?base=${currency}&symbols=USD`;
 
