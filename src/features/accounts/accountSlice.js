@@ -23,6 +23,7 @@ const accountSlice = createSlice({
     deposit(state, action) {
       // state.balance = state.balance + action.payload;
       state.balance += action.payload;
+      state.isLoading = false;
     },
     withdraw(state, action) {
       //state.balance = state.balance - action.payload;
@@ -31,26 +32,52 @@ const accountSlice = createSlice({
     requestLoan: {
       prepare(amount, purpose) {
         return {
-          payload: {amount, purpose}
-        }
+          payload: { amount, purpose },
+        };
       },
       reducer(state, action) {
-      if (state.loan > 0) return;
-      state.loan = action.payload.amount;
-      state.loanPurpose = action.payload.purpose;
-      state.balance = state.balance + action.payload.amount;
-    }},
-    payLoan(state, action) {
+        if (state.loan > 0) return;
+        state.loan = action.payload.amount;
+        state.loanPurpose = action.payload.purpose;
+        state.balance = state.balance + action.payload.amount;
+      },
+    },
+    payLoan(state) {
       state.balance -= state.loan;
       state.loan = 0;
       state.loanPurpose = "";
+    },
+    convertingCurrency(state) {
+      state.isLoading = true;
     },
   },
 });
 console.log("=======", accountSlice);
 
-export const { deposit, withdraw, requestLoan, payLoan } = accountSlice.actions;
+export const { withdraw, requestLoan, payLoan } = accountSlice.actions;
 export default accountSlice.reducer;
+
+//reduxtool is smart to kow this ction creator is the bottom one since it has the side
+//effects needed for the functionality
+export function deposit(amount, currency) {
+  if (currency === "USD") return { type: "account/deposit", payload: amount };
+
+  //THIS IS THE MIDLLEWARE SITTING BETWEEN THE DISPATCH AND THE STORE
+  return async function (dispatch, getState) {
+    dispatch({ type: "account/convertingCurrency" });
+    //API call
+    const url = `https://api.frankfurter.dev/v1/latest?base=${currency}&symbols=USD`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log("-----", data);
+
+    const convertedAmount = (amount * data.rates.USD).toFixed(4);
+
+    //dispatch with final value to update the state being determined and the reducer
+    dispatch({ type: "account/deposit", payload: convertedAmount });
+  };
+}
 
 /*
 //STEP 1: REDUCER TO UPDATE THE GLOBAL STATE
