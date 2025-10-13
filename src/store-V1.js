@@ -1,3 +1,10 @@
+//THIS IS CREATING STORE WITH REDUX
+//TWO MAIN FUNCTIONS ARE USED:
+//a. combineReducers() function to take all reeducers and put 
+//them in an object that will be addd to the store
+
+//b. createStore() function to now create the big collection of reducers
+// organised nicely in an object of many reducers
 import { combineReducers, createStore } from "redux";
 
 const initialStateAccount = {
