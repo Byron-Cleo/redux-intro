@@ -1,3 +1,9 @@
+//THIS IS CREATING STORE WITH THUNK INCLUDED
+//TWO MAIN FUNCTIONS ARE USED:
+//a. applyMiddleware() function TO CREATE A FUNCTION REFERED TO AS MIDDLEWARE 
+// where app computations and side effects are computed
+//NB: rmemeber the middleware is a returned function wthich does the heavy work of
+//API fetching or computations like Dates()function or Math() functions
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import {thunk} from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
