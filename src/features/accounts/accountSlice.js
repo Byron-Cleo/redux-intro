@@ -1,3 +1,7 @@
+//IN THIS SLICE, THIS IS REACT TOOLKIT used to improvise its functionality
+//REACT TOOLKIT HS THE FOLLOWING IMPROVISATIONS
+//a.
+// 
 //THE GLOBAL STATE
 const initialStateAccount = {
   balance: 0,
@@ -44,6 +48,7 @@ export default function accountReducer(state = initialStateAccount, action) {
   }
 }
 
+//THSE ARE ACTION CREATORS FROM THE USER GENERATING ACTIONS
 //ACTIONS
 //STEP 2: ACTION CREATOR FUNCTIONS THAT ANUTOMATICALLY DISPATCH THE ACTION TYPES WITH
 //USER DEFINED VALUES
