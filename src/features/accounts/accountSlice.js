@@ -1,7 +1,11 @@
 //IN THIS SLICE, THIS IS REACT TOOLKIT used to improvise its functionality
 //REACT TOOLKIT HS THE FOLLOWING IMPROVISATIONS
-//a.
-// 
+//a.AUTOMATICALLY CREATE ACTIONS FROM ACTION CREATORS CREATORS 
+//hence no need of switch statement and the default value is also handled 
+//b. STATE CAN ALSO BE MUTATED EASILY INSIDE THE REDUCERS 
+//instaed of spreading the state then picking the slice of the state to update. 
+//🔥🔥🔥🔥here we mutate directly 🔥🔥🔥🔥🔥
+
 //THE GLOBAL STATE
 const initialStateAccount = {
   balance: 0,
