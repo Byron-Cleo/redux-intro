@@ -1,19 +1,56 @@
 //IN THIS SLICE, THIS IS REACT TOOLKIT used to improvise its functionality
 //REACT TOOLKIT HS THE FOLLOWING IMPROVISATIONS
-//a.AUTOMATICALLY CREATE ACTIONS FROM ACTION CREATORS CREATORS 
-//hence no need of switch statement and the default value is also handled 
-//b. STATE CAN ALSO BE MUTATED EASILY INSIDE THE REDUCERS 
-//instaed of spreading the state then picking the slice of the state to update. 
+//a.AUTOMATICALLY CREATE ACTIONS FROM ACTION CREATORS CREATORS
+//hence no need of switch statement and the default value is also handled
+//b. STATE CAN ALSO BE MUTATED EASILY INSIDE THE REDUCERS
+//instaed of spreading the state then picking the slice of the state to update.
 //🔥🔥🔥🔥here we mutate directly 🔥🔥🔥🔥🔥
 import { createSlice } from "@reduxjs/toolkit";
 
 //THE GLOBAL STATE
-const initialStateAccount = {
+const initialState = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
   isLoading: false,
 };
+
+//HERE WE MODIFY WHAT WE WANT without touching the entire state
+const accountSlice = createSlice({
+  name: "account",
+  initialState,
+  reducers: {
+    deposit(state, action) {
+      // state.balance = state.balance + action.payload;
+      state.balance += action.payload;
+    },
+    withdraw(state, action) {
+      //state.balance = state.balance - action.payload;
+      state.balance -= action.payload;
+    },
+    requestLoan: {
+      prepare(amount, purpose) {
+        return {
+          payload: {amount, purpose}
+        }
+      },
+      reducer(state, action) {
+      if (state.loan > 0) return;
+      state.loan = action.payload.amount;
+      state.loanPurpose = action.payload.purpose;
+      state.balance = state.balance + action.payload.amount;
+    }},
+    payLoan(state, action) {
+      state.balance -= state.loan;
+      state.loan = 0;
+      state.loanPurpose = "";
+    },
+  },
+});
+console.log("=======", accountSlice);
+
+export const { deposit, withdraw, requestLoan, payLoan } = accountSlice.actions;
+export default accountSlice.reducer;
 
 /*
 //STEP 1: REDUCER TO UPDATE THE GLOBAL STATE
