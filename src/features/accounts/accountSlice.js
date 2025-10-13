@@ -5,6 +5,7 @@
 //b. STATE CAN ALSO BE MUTATED EASILY INSIDE THE REDUCERS 
 //instaed of spreading the state then picking the slice of the state to update. 
 //🔥🔥🔥🔥here we mutate directly 🔥🔥🔥🔥🔥
+import { createSlice } from "@reduxjs/toolkit";
 
 //THE GLOBAL STATE
 const initialStateAccount = {
@@ -13,6 +14,8 @@ const initialStateAccount = {
   loanPurpose: "",
   isLoading: false,
 };
+
+/*
 //STEP 1: REDUCER TO UPDATE THE GLOBAL STATE
 //reducer to update state based on actions to be dispatched
 //NB: THE REDUCER SHOULD NOT HAVE A SIDE EFFECT i.e which is computing capabilites
@@ -93,3 +96,4 @@ export function requestLoan(amount, purpose) {
 export function payLoan() {
   return { type: "account/payLoan" };
 }
+*/
