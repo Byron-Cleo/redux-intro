@@ -52,13 +52,15 @@ const accountSlice = createSlice({
     },
   },
 });
-console.log("=======", accountSlice);
+// console.log("=======", accountSlice);
 
 export const { withdraw, requestLoan, payLoan } = accountSlice.actions;
 export default accountSlice.reducer;
 
-//reduxtool is smart to kow this ction creator is the bottom one since it has the side
+//OPTION ONE OF CREATING A THUNK FOR REDUX TOOLKIT i.e manual way using regular javascript function
+//reduxtool is smart to kow thisa ction creator is the bottom one since it has the side
 //effects needed for the functionality
+//this is the manual way of creating a thunk WITHOUT USING REDUXTOOLKIT WAY OF APPLYING THUNK.
 export function deposit(amount, currency) {
   if (currency === "USD") return { type: "account/deposit", payload: amount };
 

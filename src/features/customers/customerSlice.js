@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-//Creating initial state for customers
+//Creating initial state for customers 
 const initialState = {
   fullName: "",
   nationalID: "",
